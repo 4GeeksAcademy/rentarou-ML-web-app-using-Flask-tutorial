@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Anime High Score Predictor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: #f9fafb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 40px auto;
+            background: #1f2937;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.45);
+        }
+
+        h1 {
+            text-align: center;
+            color: #a78bfa;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #d1d5db;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border-radius: 8px;
+            border: none;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background: #7c3aed;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #6d28d9;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #374151;
+            border-left: 5px solid #a78bfa;
+            border-radius: 8px;
+        }
+
+        .small-note {
+            font-size: 14px;
+            color: #9ca3af;
+            margin-top: 20px;
+        }
+
+        .section-title {
+            margin-top: 25px;
+            color: #c4b5fd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Anime High Score Predictor</h1>
+
+        <p>
+            This web app uses a Machine Learning model to predict whether an anime is likely
+            to receive a high community score based on popularity and general anime features.
+        </p>
+
+        <form method="POST">
+
+            <h3 class="section-title">Community response signals</h3>
+
+            <label for="num_list_users">
+                Number of users who added the anime to their list
+            </label>
+            <input
+                type="number"
+                name="num_list_users"
+                id="num_list_users"
+                value="500000"
+                min="0"
+                required
+            >
+
+            <label for="num_scoring_users">
+                Number of users who scored the anime
+            </label>
+            <input
+                type="number"
+                name="num_scoring_users"
+                id="num_scoring_users"
+                value="250000"
+                min="0"
+                required
+            >
+
+            <h3 class="section-title">Anime structure</h3>
+
+            <label for="num_episodes">
+                Number of episodes
+            </label>
+            <input
+                type="number"
+                name="num_episodes"
+                id="num_episodes"
+                value="24"
+                min="0"
+                required
+            >
+
+            <label for="average_episode_duration">
+                Average episode duration in seconds
+            </label>
+            <input
+                type="number"
+                name="average_episode_duration"
+                id="average_episode_duration"
+                value="1440"
+                min="0"
+                required
+            >
+
+            <label for="media_type">
+                Media type
+            </label>
+            <select name="media_type" id="media_type" required>
+                <option value="tv">TV</option>
+                <option value="movie">Movie</option>
+                <option value="ova">OVA</option>
+                <option value="ona">ONA</option>
+                <option value="special">Special</option>
+                <option value="music">Music</option>
+            </select>
+
+            <label for="status">
+                Status
+            </label>
+            <select name="status" id="status" required>
+                <option value="finished_airing">Finished airing</option>
+                <option value="currently_airing">Currently airing</option>
+                <option value="not_yet_aired">Not yet aired</option>
+            </select>
+
+            <label for="rating">
+                Rating
+            </label>
+            <select name="rating" id="rating" required>
+                <option value="pg_13">PG-13</option>
+                <option value="pg">PG</option>
+                <option value="r">R</option>
+                <option value="g">G</option>
+                <option value="r_plus">R+</option>
+                <option value="rx">RX</option>
+            </select>
+
+            <button type="submit">Predict high score</button>
+        </form>
+
+        {% if prediction_text %}
+            <div class="result">
+                <h2>Prediction result</h2>
+                <p>{{ prediction_text }}</p>
+
+                {% if probability_text %}
+                    <p>{{ probability_text }}</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <p class="small-note">
+            This prediction is based on historical anime data. It should be interpreted as
+            an analytical estimate, not an absolute truth.
+        </p>
+    </div>
+</body>
+</html>
